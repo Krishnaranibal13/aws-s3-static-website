@@ -1,9 +1,9 @@
-name: Deploy to S3
+name: Deploy to S3  # This workflow deploys static site to S3
 
 on:
   push:
     branches:
-      - main
+      - main  # triggers only on main branch
 
 jobs:
   deploy:
@@ -11,15 +11,15 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # fetch repo code
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}  # AWS region for deployment
+          aws-region: us-east-1
 
       - name: Sync files to S3
         run: |
-          aws s3 sync . s3://static-website-1a3 --delete --exclude ".git/*" --exclude ".github/*"
+          aws s3 sync . s3://static-website-1a3 --delete  # upload files to S3
